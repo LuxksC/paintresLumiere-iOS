@@ -1,0 +1,75 @@
+# ========================
+# Xcode
+# ========================
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+*.xcworkspace/xcshareddata/swiftpm/
+xcuserdata/
+DerivedData/
+build/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Playground
+timeline.xctimeline
+playground.xcworkspace
+
+# ========================
+# Swift Package Manager
+# ========================
+.build/
+.swiftpm/
+*.resolved
+
+# ========================
+# CocoaPods (if ever used)
+# ========================
+Pods/
+*.xcworkspace
+!default.xcworkspace
+
+# ========================
+# Fastlane
+# ========================
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# ========================
+# macOS
+# ========================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.DocumentRevisions-V100
+.fseventsd
+.TemporaryItems
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# ========================
+# Secrets & Environment
+# ========================
+*.env
+*.env.local
+Secrets.swift
+GoogleService-Info.plist
+Secrets.plist
+
+# ========================
+# Claude Code
+# ========================
+.claude/
+
+# ========================
+# Misc
+# ========================
+*.log
+*.swp
+*~
