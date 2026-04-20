@@ -32,7 +32,7 @@ struct SignUpView: View {
     // MARK: - Sub-views
 
     private var backButton: some View {
-        Button("← Back") { viewModel.coordinator?.signUpDidRequestLogin() }
+        Button("← Back") { viewModel.goBack() }
             .font(PLFont.navLink())
             .foregroundStyle(PLColor.goldMid)
             .padding(.top, PLSpacing.md)

@@ -11,7 +11,7 @@ final class LoginViewModel {
     var isLoading: Bool = false
     var errorMessage: String?
 
-    weak var coordinator: (any AuthCoordinatorActions)?
+    weak var coordinator: (any AuthCoordinatorProtocol)?
 
     private let authService: AuthServiceProtocol
 
