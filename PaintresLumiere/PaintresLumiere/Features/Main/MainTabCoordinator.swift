@@ -1,46 +1,57 @@
+// Manages the logged-in tab bar experience.
+// Owns three child coordinators: Home, Library, Profile.
+
 import UIKit
 import Swinject
 
-// MARK: - MainTabCoordinator
+protocol MainTabCoordinatorDelegate: AnyObject {
+  /// Called when the user logs out from any tab.
+  func onLoggedOut()
+}
 
-/// Manages the logged-in tab bar experience.
-/// Owns three child coordinators: Home, Library, Profile.
 final class MainTabCoordinator: Coordinator {
 
-    let tabBarController: UITabBarController
-    private let resolver: Resolver
+  let tabBarController: UITabBarController
+  private let resolver: Resolver
 
-    /// Called when the user logs out from any tab.
-    var onLoggedOut: (() -> Void)?
+  weak var delegate: MainTabCoordinatorDelegate?
+  
+  private var homeCoordinator: HomeCoordinator?
+  private var libraryCoordinator: LibraryCoordinator?
+  private var profileCoordinator: ProfileCoordinator?
 
-    private var homeCoordinator: HomeCoordinator?
-    private var libraryCoordinator: LibraryCoordinator?
-    private var profileCoordinator: ProfileCoordinator?
+  init(resolver: Resolver) {
+    self.resolver = resolver
+    self.tabBarController = UITabBarController()
+  }
 
-    init(resolver: Resolver) {
-        self.resolver = resolver
-        self.tabBarController = UITabBarController()
-    }
+  func start() {
+    let home = HomeCoordinator()
+    let library = LibraryCoordinator()
+    let profile = ProfileCoordinator(resolver: resolver)
 
-    func start() {
-        let home = HomeCoordinator()
-        let library = LibraryCoordinator()
-        let profile = ProfileCoordinator(resolver: resolver)
+    profile.delegate = self
+  
+    homeCoordinator    = home
+    libraryCoordinator = library
+    profileCoordinator = profile
 
-        profile.onLoggedOut = { [weak self] in self?.onLoggedOut?() }
+    home.start()
+    library.start()
+    profile.start()
 
-        homeCoordinator    = home
-        libraryCoordinator = library
-        profileCoordinator = profile
+    tabBarController.viewControllers = [
+      home.navigationController,
+      library.navigationController,
+      profile.navigationController,
+    ]
+  }
+}
 
-        home.start()
-        library.start()
-        profile.start()
+// MARK: - ProfileCoordinatorDelegate
 
-        tabBarController.viewControllers = [
-            home.navigationController,
-            library.navigationController,
-            profile.navigationController,
-        ]
-    }
+extension MainTabCoordinator: ProfileCoordinatorDelegate {
+  func onLoggedOut() {
+    delegate?.onLoggedOut()
+  }
 }

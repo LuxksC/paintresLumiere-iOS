@@ -1,11 +1,11 @@
+// Root coordinator. Owns the UIWindow and switches between the Auth and
+// Main flows based on authentication state. Never exposed to screens.
+
 import UIKit
 import Swinject
 
-// MARK: - AppCoordinator
-
-/// Root coordinator. Owns the UIWindow and switches between the Auth and
-/// Main flows based on authentication state. Never exposed to screens.
 final class AppCoordinator: Coordinator {
+  // MARK: - Variables
 
   private let window: UIWindow
   private let resolver: Resolver
@@ -14,11 +14,15 @@ final class AppCoordinator: Coordinator {
   private var authCoordinator: AuthCoordinator?
   private var mainTabCoordinator: MainTabCoordinator?
 
+  //MARK: - Constructor
+
   init(window: UIWindow, resolver: Resolver) {
     self.window = window
     self.resolver = resolver
     self.keychain = resolver.resolve(KeychainService.self) ?? KeychainService.shared
   }
+
+  // MARK: - Public Methods
 
   func start() {
     if keychain.isAuthenticated {
@@ -32,26 +36,20 @@ final class AppCoordinator: Coordinator {
 
   private func showAuth(animated: Bool) {
     let coordinator = AuthCoordinator(resolver: resolver)
-    coordinator.onAuthenticated = { [weak self] in
-        self?.showMain(animated: true)
-    }
+    coordinator.delegate = self
     authCoordinator = coordinator
     mainTabCoordinator = nil
     coordinator.start()
     setRoot(coordinator.navigationController, animated: animated)
-    window.rootViewController = coordinator.navigationController
   }
 
   private func showMain(animated: Bool) {
     let coordinator = MainTabCoordinator(resolver: resolver)
-    coordinator.onLoggedOut = { [weak self] in
-        self?.showAuth(animated: true)
-    }
+    coordinator.delegate = self
     mainTabCoordinator = coordinator
     authCoordinator = nil
     coordinator.start()
     setRoot(coordinator.tabBarController, animated: animated)
-    window.rootViewController = coordinator.tabBarController
   }
 
   private func setRoot(_ viewController: UIViewController, animated: Bool) {
@@ -65,5 +63,21 @@ final class AppCoordinator: Coordinator {
       options: .transitionCrossDissolve,
       animations: { self.window.rootViewController = viewController }
     )
+  }
+}
+
+// MARK: - AuthCoordinatorDelegate
+
+extension AppCoordinator: AuthCoordinatorDelegate {
+  func onAuthenticated() {
+    showMain(animated: true)
+  }
+}
+
+// MARK: - MainTabCoordinatorDelegate
+
+extension AppCoordinator: MainTabCoordinatorDelegate {
+  func onLoggedOut() {
+    showAuth(animated: true)
   }
 }
