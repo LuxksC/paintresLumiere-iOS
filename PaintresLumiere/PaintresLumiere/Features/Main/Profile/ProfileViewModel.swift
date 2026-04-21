@@ -8,7 +8,7 @@ final class ProfileViewModel {
 
     var isLoading: Bool = false
 
-    weak var coordinator: (any ProfileCoordinatorActions)?
+    weak var coordinator: (any ProfileCoordinatorProtocol)?
 
     private let authService: AuthServiceProtocol
 

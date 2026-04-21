@@ -11,7 +11,7 @@ final class ForgotPasswordViewModel {
     var emailError: String?
     var successMessage: String?
 
-    weak var coordinator: (any AuthCoordinatorActions)?
+    weak var coordinator: (any AuthCoordinatorProtocol)?
 
     private let authService: AuthServiceProtocol
 

@@ -21,7 +21,7 @@ final class SignUpViewModel {
     var confirmPasswordError: String?
     var generalError: String?
 
-    weak var coordinator: (any AuthCoordinatorActions)?
+    weak var coordinator: (any AuthCoordinatorProtocol)?
 
     private let authService: AuthServiceProtocol
 
@@ -64,6 +64,10 @@ final class SignUpViewModel {
                 generalError = error.localizedDescription
             }
         }
+    }
+
+    func goBack() {
+        coordinator?.signUpDidRequestLogin()
     }
 
     func requestSignIn() {
