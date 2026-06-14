@@ -1,0 +1,123 @@
+{
+  "products": [
+    {
+      "id": "11111111-1111-1111-1111-111111111111",
+      "sku": "NAME-LUNA",
+      "name": "Luna",
+      "slug": "luna",
+      "description": "Personalized name plaque hand-cut in laminated MDF. Hangs flush on any wall with a hidden mount.",
+      "images": [
+        "https://images.unsplash.com/photo-1582582494705-f8ce0b0c24f0?w=900",
+        "https://images.unsplash.com/photo-1567446537708-ac4aa75c9c28?w=900"
+      ],
+      "stock_quantity": 12,
+      "status": "active",
+      "pricing": {
+        "selling_price": 89.90,
+        "discount_rate": 0.10,
+        "final_price": 80.91
+      },
+      "specifications": {
+        "thickness": 3.0
+      }
+    },
+    {
+      "id": "22222222-2222-2222-2222-222222222222",
+      "sku": "LET-AMORE",
+      "name": "Amore",
+      "slug": "amore",
+      "description": "Romantic word cutout. Available in gold, rose, and transparent acrylic.",
+      "images": [
+        "https://images.unsplash.com/photo-1518131672697-613becd4fab5?w=900"
+      ],
+      "stock_quantity": 24,
+      "status": "active",
+      "pricing": {
+        "selling_price": 59.00,
+        "discount_rate": 0.0,
+        "final_price": 59.00
+      },
+      "specifications": {
+        "thickness": 3.0
+      }
+    },
+    {
+      "id": "33333333-3333-3333-3333-333333333333",
+      "sku": "NUM-2024",
+      "name": "Number 2024",
+      "slug": "number-2024",
+      "description": "Year keepsake. Perfect for milestone displays.",
+      "images": [
+        "https://images.unsplash.com/photo-1577563908411-5077b6dc7624?w=900"
+      ],
+      "stock_quantity": 0,
+      "status": "out_of_stock",
+      "pricing": {
+        "selling_price": 45.00,
+        "discount_rate": 0.20,
+        "final_price": 36.00
+      },
+      "specifications": {
+        "thickness": 3.0
+      }
+    },
+    {
+      "id": "44444444-4444-4444-4444-444444444444",
+      "sku": "IMG-HEART",
+      "name": "Heart Silhouette",
+      "slug": "heart-silhouette",
+      "description": "Layered heart cutout, ideal for centerpieces.",
+      "images": [],
+      "stock_quantity": 8,
+      "status": "active",
+      "pricing": {
+        "selling_price": 39.90,
+        "discount_rate": 0.0,
+        "final_price": 39.90
+      },
+      "specifications": {
+        "thickness": 3.0
+      }
+    },
+    {
+      "id": "55555555-5555-5555-5555-555555555555",
+      "sku": "NAME-SOFIA",
+      "name": "Sofia",
+      "slug": "sofia",
+      "description": "Personalized name plaque with elegant serif font.",
+      "images": [
+        "https://images.unsplash.com/photo-1604762512526-b7068fe9f0c8?w=900"
+      ],
+      "stock_quantity": 18,
+      "status": "active",
+      "pricing": {
+        "selling_price": 89.90,
+        "discount_rate": 0.15,
+        "final_price": 76.42
+      },
+      "specifications": {
+        "thickness": 3.0
+      }
+    },
+    {
+      "id": "66666666-6666-6666-6666-666666666666",
+      "sku": "LET-FAMILIA",
+      "name": "Família",
+      "slug": "familia",
+      "description": "Word art for the family wall. Multiple finishes available.",
+      "images": [
+        "https://images.unsplash.com/photo-1554188248-986adbb73be4?w=900"
+      ],
+      "stock_quantity": 15,
+      "status": "active",
+      "pricing": {
+        "selling_price": 79.00,
+        "discount_rate": 0.0,
+        "final_price": 79.00
+      },
+      "specifications": {
+        "thickness": 3.0
+      }
+    }
+  ]
+}

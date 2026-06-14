@@ -26,7 +26,7 @@ final class MainTabCoordinator: Coordinator {
   }
 
   func start() {
-    let home = HomeCoordinator()
+    let home = HomeCoordinator(resolver: resolver)
     let library = LibraryCoordinator()
     let profile = ProfileCoordinator(resolver: resolver)
 

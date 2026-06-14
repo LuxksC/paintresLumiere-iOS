@@ -29,17 +29,17 @@ final class APIClient: APIClientProtocol {
         switch httpResponse.statusCode {
         case 200...299:
             do {
-                return try JSONDecoder().decode(T.self, from: data)
+                return try JsonHelper.decode(data)
             } catch {
                 throw APIError.decodingError(error)
             }
         case 401:
             throw APIError.unauthorized
         case 409:
-            let body = try? JSONDecoder().decode(APIErrorBody.self, from: data)
+            let body = try? JsonHelper.decode(data, as: APIErrorBody.self)
             throw APIError.conflict(body?.error ?? "Conflict.")
         default:
-            let body = try? JSONDecoder().decode(APIErrorBody.self, from: data)
+            let body = try? JsonHelper.decode(data, as: APIErrorBody.self)
             throw APIError.httpError(statusCode: httpResponse.statusCode,
                                      message: body?.error ?? "Request failed.")
         }

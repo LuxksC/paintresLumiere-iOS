@@ -1,4 +1,5 @@
 import UIKit
+import Swinject
 import GoogleSignIn
 
 // MARK: - SceneDelegate
@@ -25,8 +26,13 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       appCoordinator?.start()
 
       appWindow.makeKeyAndVisible()
-      
+
       window = appWindow
+
+      // Attach the global toast overlay on top of this scene.
+      if let messages = resolver.resolve(MessagesServiceProtocol.self) {
+          messages.attach(to: windowScene)
+      }
     }
 
     // MARK: - URL Handling (Google Sign-In)

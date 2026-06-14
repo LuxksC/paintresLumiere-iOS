@@ -20,5 +20,14 @@ final class ServicesAssembly: Assembly {
             let keychain = r.resolve(KeychainService.self) ?? KeychainService.shared
             return AuthService(apiClient: apiClient, keychain: keychain)
         }.inObjectScope(.container)
+
+        container.register(ProductServiceProtocol.self) { r in
+            let apiClient = r.resolve(APIClientProtocol.self) ?? APIClient()
+            return ProductService(apiClient: apiClient)
+        }.inObjectScope(.container)
+
+        container.register(MessagesServiceProtocol.self) { _ in
+            MessagesService()
+        }.inObjectScope(.container)
     }
 }

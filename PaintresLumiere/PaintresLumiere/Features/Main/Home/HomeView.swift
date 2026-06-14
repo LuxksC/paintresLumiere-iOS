@@ -1,138 +1,232 @@
 import SwiftUI
 
-// MARK: - Home View
+// MARK: - Home View (e-commerce catalog)
 
 struct HomeView: View {
+
+    @Bindable var viewModel: HomeViewModel
+
+    private let gridColumns: [GridItem] = [
+        GridItem(.flexible(), spacing: PLSpacing.md),
+        GridItem(.flexible(), spacing: PLSpacing.md)
+    ]
 
     var body: some View {
         ZStack {
             PLColor.backgroundPrimary.ignoresSafeArea()
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    HomeHeaderView()
+            content
+        }
+        .task {
+            if viewModel.state == .idle { await viewModel.load() }
+        }
+    }
+
+    // MARK: - States
+
+    @ViewBuilder
+    private var content: some View {
+        if viewModel.isInitialLoading {
+            HomeLoadingView()
+        } else if case .failed(let message) = viewModel.state, !viewModel.hasContent {
+            HomeErrorView(message: message) {
+                Task { await viewModel.load() }
+            }
+        } else {
+            catalogScroll
+        }
+    }
+
+    // MARK: - Catalog scroll
+
+    private var catalogScroll: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                Group {
+                    HomeHeaderView(
+                        onNotifications: viewModel.tapNotifications,
+                        onCart: viewModel.tapCart
+                    )
                     PLDivider().padding(.vertical, PLSpacing.md)
-                    welcomeSection
-                    quickActionsSection
-                    recentFilesSection
                 }
                 .padding(.horizontal, PLSpacing.xl)
+
+                if !viewModel.popular.isEmpty {
+                    PopularProductsSection(
+                        products: viewModel.popular,
+                        onSelect: viewModel.selectProduct
+                    )
+                    .padding(.bottom, PLSpacing.xl)
+                }
+
+                if viewModel.catalog.isEmpty {
+                    HomeEmptyView()
+                        .padding(.top, PLSpacing.xl)
+                        .padding(.horizontal, PLSpacing.xl)
+                } else {
+                    CollectionGridSection(
+                        products: viewModel.catalog,
+                        columns: gridColumns,
+                        onSelect: viewModel.selectProduct
+                    )
+                    .padding(.horizontal, PLSpacing.xl)
+                }
+
+                Spacer(minLength: PLSpacing.xxl)
             }
-            .scrollIndicators(.hidden)
         }
-    }
-
-    // MARK: - Sub-views
-
-    private var welcomeSection: some View {
-        VStack(alignment: .leading, spacing: PLSpacing.xs) {
-            Text("Good to see you back.")
-                .font(PLFont.h1())
-                .foregroundStyle(PLColor.textPrimary)
-            Text("Start by uploading an SVG or generate a new design from your library.")
-                .font(PLFont.body())
-                .foregroundStyle(PLColor.textMuted)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-    }
-
-    private var quickActionsSection: some View {
-        HStack(spacing: PLSpacing.md) {
-            QuickActionCard(icon: "arrow.up.doc", title: "Upload SVG", subtitle: "Add a new file")
-            QuickActionCard(icon: "wand.and.stars", title: "Generate", subtitle: "Combine & create")
-        }
-        .padding(.top, PLSpacing.lg)
-    }
-
-    private var recentFilesSection: some View {
-        VStack(alignment: .leading, spacing: PLSpacing.md) {
-            HStack {
-                Text("RECENT FILES")
-                    .font(PLFont.label())
-                    .foregroundStyle(PLColor.textMuted)
-                    .tracking(1)
-                Spacer()
-                Button("See all") { /* TODO */ }
-                    .font(PLFont.caption())
-                    .foregroundStyle(PLColor.goldMid)
-            }
-            .padding(.top, PLSpacing.xl)
-
-            EmptyLibraryPrompt()
-        }
+        .scrollIndicators(.hidden)
+        .refreshable { await viewModel.load() }
     }
 }
 
-// MARK: - Home Header
+// MARK: - Header
 
 struct HomeHeaderView: View {
+
+    let onNotifications: () -> Void
+    let onCart: () -> Void
+
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Paintres Lumière")
                     .font(PLFont.h2())
                     .foregroundStyle(PLColor.goldBright)
-                Text("LASER CUT STUDIO")
+                Text("BOUTIQUE")
                     .font(PLFont.label())
                     .foregroundStyle(PLColor.textMuted)
                     .tracking(2)
             }
             Spacer()
-            Button("Notifications", systemImage: "bell") { /* TODO */ }
-                .labelStyle(.iconOnly)
-                .foregroundStyle(PLColor.textMuted)
-                .font(.system(.title3))
+            HStack(spacing: PLSpacing.md) {
+                Button("Notifications", systemImage: "bell", action: onNotifications)
+                    .labelStyle(.iconOnly)
+                Button("Cart", systemImage: "cart", action: onCart)
+                    .labelStyle(.iconOnly)
+            }
+            .foregroundStyle(PLColor.textMuted)
+            .font(.system(.title3))
         }
         .padding(.top, PLSpacing.sm)
     }
 }
 
-// MARK: - Quick Action Card
+// MARK: - Popular section
 
-struct QuickActionCard: View {
-    let icon: String
-    let title: String
-    let subtitle: String
+struct PopularProductsSection: View {
+
+    let products: [Product]
+    let onSelect: (Product) -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: PLSpacing.sm) {
-            Image(systemName: icon)
-                .font(.system(.title2))
-                .foregroundStyle(PLColor.goldMid)
-            Text(title)
-                .font(PLFont.button())
-                .foregroundStyle(PLColor.textPrimary)
-            Text(subtitle)
-                .font(PLFont.caption())
-                .foregroundStyle(PLColor.textMuted)
+        VStack(alignment: .leading, spacing: PLSpacing.md) {
+            HStack {
+                Text("MOST POPULAR")
+                    .font(PLFont.label())
+                    .foregroundStyle(PLColor.textMuted)
+                    .tracking(1)
+                Spacer()
+            }
+            .padding(.top, PLSpacing.lg)
+            .padding(.horizontal, PLSpacing.xl)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack(spacing: PLSpacing.md) {
+                    ForEach(products) { product in
+                        PLProductCard(product: product) { onSelect(product) }
+                            .frame(width: 180)
+                    }
+                }
+                .scrollTargetLayout()
+            }
+            .contentMargins(.horizontal, PLSpacing.xl, for: .scrollContent)
+            .scrollIndicators(.hidden)
+            .scrollTargetBehavior(.viewAligned)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(PLSpacing.md)
-        .background(PLColor.backgroundElevated)
-        .overlay {
-            RoundedRectangle(cornerRadius: PLRadius.card)
-                .stroke(PLColor.borderSubtle, lineWidth: 1)
-        }
-        .clipShape(.rect(cornerRadius: PLRadius.card))
     }
 }
 
-// MARK: - Empty Library Prompt
+// MARK: - Collection grid
 
-struct EmptyLibraryPrompt: View {
+struct CollectionGridSection: View {
+
+    let products: [Product]
+    let columns: [GridItem]
+    let onSelect: (Product) -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: PLSpacing.md) {
+            HStack {
+                Text("OUR COLLECTION")
+                    .font(PLFont.label())
+                    .foregroundStyle(PLColor.textMuted)
+                    .tracking(1)
+                Spacer()
+                Text("\(products.count) pieces")
+                    .font(PLFont.caption())
+                    .foregroundStyle(PLColor.textDisabled)
+            }
+
+            LazyVGrid(columns: columns, spacing: PLSpacing.md) {
+                ForEach(products) { product in
+                    PLProductCard(product: product) { onSelect(product) }
+                }
+            }
+        }
+    }
+}
+
+// MARK: - States
+
+private struct HomeLoadingView: View {
     var body: some View {
         VStack(spacing: PLSpacing.md) {
-            Image(systemName: "doc.badge.plus")
-                .font(.system(size: 40))
-                .foregroundStyle(PLColor.goldAntique)
-            Text("No files yet")
+            ProgressView()
+                .tint(PLColor.goldMid)
+            Text("Loading catalog…")
+                .font(PLFont.body())
+                .foregroundStyle(PLColor.textMuted)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+private struct HomeErrorView: View {
+    let message: String
+    let onRetry: () -> Void
+    var body: some View {
+        VStack(spacing: PLSpacing.md) {
+            Image(systemName: "exclamationmark.triangle")
+                .font(.system(size: 36))
+                .foregroundStyle(PLColor.warning)
+            Text("Couldn't load the catalog")
                 .font(PLFont.h2())
                 .foregroundStyle(PLColor.textPrimary)
-            Text("Upload your first SVG to get started.")
+            Text(message)
                 .font(PLFont.body())
                 .foregroundStyle(PLColor.textMuted)
                 .multilineTextAlignment(.center)
-            PLButton("Upload SVG") { /* TODO: open file picker */ }
-                .frame(maxWidth: 200)
+            PLButton("Try again", action: onRetry)
+                .frame(maxWidth: 220)
+        }
+        .padding(PLSpacing.xl)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+private struct HomeEmptyView: View {
+    var body: some View {
+        VStack(spacing: PLSpacing.md) {
+            Image(systemName: "tray")
+                .font(.system(size: 36))
+                .foregroundStyle(PLColor.goldAntique)
+            Text("Catalog is empty")
+                .font(PLFont.h2())
+                .foregroundStyle(PLColor.textPrimary)
+            Text("New pieces will appear here as the seller adds them.")
+                .font(PLFont.body())
+                .foregroundStyle(PLColor.textMuted)
+                .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, PLSpacing.xxl)
@@ -141,6 +235,22 @@ struct EmptyLibraryPrompt: View {
 
 // MARK: - Preview
 
+#if DEBUG
 #Preview {
-    HomeView()
+    let viewModel = HomeViewModel(
+        productService: PreviewProductService(),
+        messages: PreviewMessagesService()
+    )
+    return HomeView(viewModel: viewModel)
 }
+
+private final class PreviewMessagesService: MessagesServiceProtocol {
+    func show(_ message: ToastMessage) {}
+    func dismissCurrent() {}
+    func attach(to scene: UIWindowScene) {}
+    func showNetworkError() {}
+    func showGenericError() {}
+    func showAddedToCart(productName: String) {}
+    func showComingSoon() {}
+}
+#endif
