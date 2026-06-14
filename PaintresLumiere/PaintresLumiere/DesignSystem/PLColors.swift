@@ -24,9 +24,12 @@ enum PLColor {
     static let textDisabled  = Color(hex: "6F6A62")
 
     // Semantic
-    static let error           = Color(hex: "C72C2C")
-    static let errorBackground = Color(hex: "801212")
-    static let success         = Color(hex: "418754")
+    static let error             = Color(hex: "C72C2C")
+    static let errorBackground   = Color(hex: "801212")
+    static let success           = Color(hex: "418754")
+    static let successBackground = Color(hex: "1F3A28")
+    static let warning           = Color(hex: "D97A1F")
+    static let warningBackground = Color(hex: "3A2715")
 
     // Border
     static let borderSubtle = Color(hex: "33281F")
@@ -51,9 +54,12 @@ extension PLColor {
         static let textMuted     = UIColor(hex: "B1AA9D")
         static let textDisabled  = UIColor(hex: "6F6A62")
 
-        static let error           = UIColor(hex: "C72C2C")
-        static let errorBackground = UIColor(hex: "801212")
-        static let success         = UIColor(hex: "418754")
+        static let error             = UIColor(hex: "C72C2C")
+        static let errorBackground   = UIColor(hex: "801212")
+        static let success           = UIColor(hex: "418754")
+        static let successBackground = UIColor(hex: "1F3A28")
+        static let warning           = UIColor(hex: "D97A1F")
+        static let warningBackground = UIColor(hex: "3A2715")
 
         static let borderSubtle = UIColor(hex: "33281F")
     }

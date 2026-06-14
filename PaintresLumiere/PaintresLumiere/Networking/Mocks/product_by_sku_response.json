@@ -1,0 +1,116 @@
+{
+  "products": [
+    {
+      "id": "11111111-1111-1111-1111-111111111111",
+      "name": "Luna",
+      "slug": "luna",
+      "description": "Personalized name plaque hand-cut in laminated MDF. Hangs flush on any wall with a hidden mount. Each piece is finished by hand and feels solid in your hand from the moment you unwrap it.",
+      "images": [
+        "https://images.unsplash.com/photo-1582582494705-f8ce0b0c24f0?w=1200",
+        "https://images.unsplash.com/photo-1567446537708-ac4aa75c9c28?w=1200",
+        "https://images.unsplash.com/photo-1604762512526-b7068fe9f0c8?w=1200"
+      ],
+      "stock_quantity": 6,
+      "category": "names",
+      "barcode": "7891234567890",
+      "status": "active",
+      "pricing": {
+        "selling_price": 89.90,
+        "discount_rate": 0.10,
+        "final_price": 80.91
+      },
+      "specifications": {
+        "color": "gold",
+        "dimensions": {
+          "height": 80,
+          "width": 200,
+          "length": null,
+          "thickness": 3,
+          "unit": "mm"
+        }
+      }
+    },
+    {
+      "id": "11111111-1111-1111-1111-111111111112",
+      "name": "Luna",
+      "slug": "luna-silver",
+      "description": "Personalized name plaque hand-cut in laminated MDF. Hangs flush on any wall with a hidden mount. Each piece is finished by hand and feels solid in your hand from the moment you unwrap it.",
+      "images": [
+        "https://images.unsplash.com/photo-1582582494705-f8ce0b0c24f0?w=1200"
+      ],
+      "stock_quantity": 4,
+      "category": "names",
+      "barcode": "7891234567891",
+      "status": "active",
+      "pricing": {
+        "selling_price": 89.90,
+        "discount_rate": 0.10,
+        "final_price": 80.91
+      },
+      "specifications": {
+        "color": "silver",
+        "dimensions": {
+          "height": 80,
+          "width": 200,
+          "length": null,
+          "thickness": 3,
+          "unit": "mm"
+        }
+      }
+    },
+    {
+      "id": "11111111-1111-1111-1111-111111111113",
+      "name": "Luna",
+      "slug": "luna-rose-large",
+      "description": "Personalized name plaque hand-cut in laminated MDF. Hangs flush on any wall with a hidden mount. Each piece is finished by hand and feels solid in your hand from the moment you unwrap it.",
+      "images": [
+        "https://images.unsplash.com/photo-1567446537708-ac4aa75c9c28?w=1200"
+      ],
+      "stock_quantity": 2,
+      "category": "names",
+      "barcode": "7891234567892",
+      "status": "active",
+      "pricing": {
+        "selling_price": 119.90,
+        "discount_rate": 0.0,
+        "final_price": 119.90
+      },
+      "specifications": {
+        "color": "rose",
+        "dimensions": {
+          "height": 120,
+          "width": 300,
+          "length": null,
+          "thickness": 5,
+          "unit": "mm"
+        }
+      }
+    },
+    {
+      "id": "11111111-1111-1111-1111-111111111114",
+      "name": "Luna",
+      "slug": "luna-black-large",
+      "description": "Personalized name plaque hand-cut in laminated MDF. Hangs flush on any wall with a hidden mount. Each piece is finished by hand and feels solid in your hand from the moment you unwrap it.",
+      "images": [],
+      "stock_quantity": 0,
+      "category": "names",
+      "barcode": "7891234567893",
+      "status": "out_of_stock",
+      "pricing": {
+        "selling_price": 119.90,
+        "discount_rate": 0.0,
+        "final_price": 119.90
+      },
+      "specifications": {
+        "color": "black",
+        "dimensions": {
+          "height": 120,
+          "width": 300,
+          "length": null,
+          "thickness": 5,
+          "unit": "mm"
+        }
+      }
+    }
+  ]
+}

@@ -9,27 +9,54 @@ enum APIEndpoint {
     case authApple(identityToken: String, email: String?, fullName: String?)
     case logout
     case deleteAccount
+    case getProducts
+    case getPopularProducts(limit: Int?)
+    case getProductBySku(sku: String)
 
     var path: String {
         switch self {
-        case .login:       return "/login"
-        case .signup:      return "/signup"
-        case .authGoogle:  return "/auth/google"
-        case .authApple:   return "/auth/apple"
-        case .logout:      return "/logout"
-        case .deleteAccount: return "/users/me"
+        case .login:                 return "/login"
+        case .signup:                return "/signup"
+        case .authGoogle:            return "/auth/google"
+        case .authApple:             return "/auth/apple"
+        case .logout:                return "/logout"
+        case .deleteAccount:         return "/users/me"
+        case .getProducts:           return "/products"
+        case .getPopularProducts:    return "/products/popular"
+        case .getProductBySku(let sku): return "/products/sku/\(sku)"
         }
     }
 
     var method: String {
         switch self {
-        case .deleteAccount: return "DELETE"
-        default:             return "POST"
+        case .deleteAccount:
+            return "DELETE"
+        case .getProducts, .getPopularProducts, .getProductBySku:
+            return "GET"
+        default:
+            return "POST"
+        }
+    }
+
+    var queryItems: [URLQueryItem]? {
+        switch self {
+        case .getPopularProducts(let limit?):
+            return [URLQueryItem(name: "limit", value: String(limit))]
+        default:
+            return nil
         }
     }
 
     func urlRequest() throws -> URLRequest {
-        let url = NetworkConfig.baseURL.appendingPathComponent(path)
+        let baseURL = NetworkConfig.baseURL.appendingPathComponent(path)
+        guard var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false) else {
+            throw APIError.invalidResponse
+        }
+        components.queryItems = queryItems
+        guard let url = components.url else {
+            throw APIError.invalidResponse
+        }
+
         var request = URLRequest(url: url)
         request.httpMethod = method
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -54,7 +81,8 @@ enum APIEndpoint {
             if let name  { body["fullName"] = name }
             request.httpBody = try JSONEncoder().encode(body)
 
-        case .logout, .deleteAccount:
+        case .logout, .deleteAccount,
+             .getProducts, .getPopularProducts, .getProductBySku:
             break
         }
 

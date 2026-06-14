@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE6187352FC3BFEC009EEE8C /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BE6187342FC3BFEC009EEE8C /* Kingfisher */; };
 		BEB028B12F78C1F50051AEBD /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BEB028B02F78C1F50051AEBD /* GoogleSignIn */; };
 		BEB028B32F78C1F50051AEBD /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BEB028B22F78C1F50051AEBD /* GoogleSignInSwift */; };
 		BEC56AA92F8C394E000AE88C /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = BEC56AA82F8C394E000AE88C /* Swinject */; };
@@ -71,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE6187352FC3BFEC009EEE8C /* Kingfisher in Frameworks */,
 				BEB028B32F78C1F50051AEBD /* GoogleSignInSwift in Frameworks */,
 				BEB028B12F78C1F50051AEBD /* GoogleSignIn in Frameworks */,
 				BEC56AA92F8C394E000AE88C /* Swinject in Frameworks */,
@@ -137,6 +139,7 @@
 				BEB028B02F78C1F50051AEBD /* GoogleSignIn */,
 				BEB028B22F78C1F50051AEBD /* GoogleSignInSwift */,
 				BEC56AA82F8C394E000AE88C /* Swinject */,
+				BE6187342FC3BFEC009EEE8C /* Kingfisher */,
 			);
 			productName = PaintresLumiere;
 			productReference = BED0F0482F70080200B93BC9 /* PaintresLumiere.app */;
@@ -223,6 +226,7 @@
 			packageReferences = (
 				BEB028AF2F78C1F50051AEBD /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				BEC56AA72F8C394E000AE88C /* XCRemoteSwiftPackageReference "Swinject" */,
+				BE6187332FC3BFEC009EEE8C /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BED0F0492F70080200B93BC9 /* Products */;
@@ -429,17 +433,20 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PaintresLumiere/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = NO;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = NO;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -477,17 +484,20 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PaintresLumiere/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = NO;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = NO;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -654,6 +664,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BE6187332FC3BFEC009EEE8C /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.9.0;
+			};
+		};
 		BEB028AF2F78C1F50051AEBD /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -673,6 +691,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BE6187342FC3BFEC009EEE8C /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BE6187332FC3BFEC009EEE8C /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		BEB028B02F78C1F50051AEBD /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BEB028AF2F78C1F50051AEBD /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
