@@ -16,7 +16,8 @@ Companion documents (outside this repo, in the workspace root):
 - `HANDOFF.md` — deep snapshot of 2026-08-30 (static, not updated as work lands).
 - Trello board — the source of truth for work items: https://trello.com/b/L9Bg9uhU
 
-`.claude/CLAUDE.md` is currently the **only tracked file under `.claude/`**.
+`.claude/` is gitignored and `.claude/CLAUDE.md` is the **only tracked file** in it — everything
+else there is local to each machine, including the skills described below.
 
 ---
 
@@ -420,6 +421,43 @@ clients decode it, and Android will need it documented.
   "Generated with Claude Code".
 - Nothing that will be done stays off the Trello board; new cards land in Backlog.
 - If SwiftLint is installed, it must be clean before committing.
+- `gitleaks` runs as a pre-commit guard. If it reports that it is not installed, the commit went
+  through **without a secret scan** — say so explicitly rather than letting it pass silently.
+
+### Writing a PR description
+
+- **Every Trello card number is a hyperlink.** Never write a bare `#204`: link the number itself to
+  the card, `[#204](https://trello.com/c/QMeCtXUl)`. This applies to every mention — the card the PR
+  closes, cards it derives, cards it blocks or depends on, and cards named only in passing. Get the
+  URL from the card's `shortUrl`; `https://trello.com/c/<shortLink>` is enough.
+- Open with what the PR does and why, not with a file list. The diff already lists the files.
+- State what a reviewer should actually check, and say plainly when there is nothing to build or
+  test.
+- Record decisions that changed course during the work, and the cards they produced — a PR is where
+  the reasoning is findable later.
+
+### Stacked PRs
+
+Stacks are managed with **`gh stack`** (`github/gh-stack`). GitHub publishes an agent skill for it,
+which lives at `skills/gh-stack/` in that repository. Install both once per machine — `.claude/` is
+gitignored, so this is not set up for you by cloning:
+
+```bash
+gh extension install github/gh-stack
+git config rerere.enabled true
+# then copy skills/gh-stack/ from github/gh-stack into .claude/skills/gh-stack/
+```
+
+**Load that skill before running any stack command.** Several `gh stack` invocations open a TUI and
+block forever in a non-interactive shell — `view` needs `--json`, `submit` needs `--auto`, `merge`
+needs `--yes`, and `modify` has no non-interactive path at all. The skill documents each one.
+
+The short version: `gh stack view --json` to read state, `gh stack add <branch>` for a new layer,
+`gh stack submit --auto` to push and open the PRs, `gh stack sync` to reconcile, and
+`gh stack merge <pr> --yes` to merge bottom-up. Never `gh pr merge` on a stacked PR.
+
+`gh stack submit` **auto-generates PR titles and bodies**, so a hand-written description must be
+restored with `gh pr edit` afterwards.
 
 ---
 
