@@ -65,7 +65,10 @@ Secrets.plist
 # ========================
 # Claude Code
 # ========================
-.claude/
+# CLAUDE.md and skills/ are tracked on purpose: the agent setup travels with
+# the repo. Only the per-machine settings file stays out — it holds local API
+# credentials (Trello key/token).
+.claude/settings.local.json
 
 # ========================
 # Misc

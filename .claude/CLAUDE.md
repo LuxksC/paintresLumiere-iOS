@@ -16,8 +16,9 @@ Companion documents (outside this repo, in the workspace root):
 - `HANDOFF.md` — deep snapshot of 2026-08-30 (static, not updated as work lands).
 - Trello board — the source of truth for work items: https://trello.com/b/L9Bg9uhU
 
-`.claude/` is gitignored and `.claude/CLAUDE.md` is the **only tracked file** in it — everything
-else there is local to each machine, including the skills described below.
+`.claude/` is **tracked**, so the agent setup travels with the repo — this guide and the skills
+under `.claude/skills/`. The one exception is `.claude/settings.local.json`, which stays gitignored
+because it holds per-machine API credentials.
 
 ---
 
@@ -438,14 +439,13 @@ clients decode it, and Android will need it documented.
 
 ### Stacked PRs
 
-Stacks are managed with **`gh stack`** (`github/gh-stack`). GitHub publishes an agent skill for it,
-which lives at `skills/gh-stack/` in that repository. Install both once per machine — `.claude/` is
-gitignored, so this is not set up for you by cloning:
+Stacks are managed with **`gh stack`** (`github/gh-stack`). GitHub's own agent skill for it is
+vendored in this repo at `.claude/skills/gh-stack/`, so cloning is enough to get it. The CLI
+extension is per-machine and still needs a one-time install:
 
 ```bash
 gh extension install github/gh-stack
 git config rerere.enabled true
-# then copy skills/gh-stack/ from github/gh-stack into .claude/skills/gh-stack/
 ```
 
 **Load that skill before running any stack command.** Several `gh stack` invocations open a TUI and
