@@ -2,13 +2,13 @@ import Foundation
 import Security
 
 // MARK: - Keychain Service (JWT token persistence)
+
 //
 // `shared` is kept so APIEndpoint can read the token without going through DI.
 // The Swinject container is configured to register this same instance,
 // ensuring a single source of truth across the app.
 
-final class KeychainService {
-
+final class KeychainService: Sendable {
     static let shared = KeychainService()
 
     private let service = "com.paintresLumiere.app"
@@ -29,16 +29,18 @@ final class KeychainService {
         }
     }
 
-    var isAuthenticated: Bool { accessToken != nil }
+    var isAuthenticated: Bool {
+        accessToken != nil
+    }
 
     // MARK: - Private helpers
 
     private func save(_ value: String, key: String) {
         guard let data = value.data(using: .utf8) else { return }
         let query: [CFString: Any] = [
-            kSecClass:       kSecClassGenericPassword,
+            kSecClass: kSecClassGenericPassword,
             kSecAttrService: service,
-            kSecAttrAccount: key
+            kSecAttrAccount: key,
         ]
         var attrs: [CFString: Any] = query
         attrs[kSecValueData] = data
@@ -52,11 +54,11 @@ final class KeychainService {
 
     private func read(key: String) -> String? {
         let query: [CFString: Any] = [
-            kSecClass:        kSecClassGenericPassword,
-            kSecAttrService:  service,
-            kSecAttrAccount:  key,
-            kSecReturnData:   true,
-            kSecMatchLimit:   kSecMatchLimitOne
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrService: service,
+            kSecAttrAccount: key,
+            kSecReturnData: true,
+            kSecMatchLimit: kSecMatchLimitOne,
         ]
         var result: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &result)
@@ -69,9 +71,9 @@ final class KeychainService {
 
     private func delete(key: String) {
         let query: [CFString: Any] = [
-            kSecClass:       kSecClassGenericPassword,
+            kSecClass: kSecClassGenericPassword,
             kSecAttrService: service,
-            kSecAttrAccount: key
+            kSecAttrAccount: key,
         ]
         SecItemDelete(query as CFDictionary)
     }
