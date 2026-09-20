@@ -2,14 +2,13 @@ import Foundation
 
 // MARK: - APIClient Protocol
 
-protocol APIClientProtocol: AnyObject {
+protocol APIClientProtocol: AnyObject, Sendable {
     func request<T: Decodable>(_ endpoint: APIEndpoint) async throws -> T
 }
 
 // MARK: - APIClient
 
-final class APIClient: APIClientProtocol {
-
+final class APIClient: APIClientProtocol, Sendable {
     private let session: URLSession
 
     init() {
@@ -27,7 +26,7 @@ final class APIClient: APIClientProtocol {
         }
 
         switch httpResponse.statusCode {
-        case 200...299:
+        case 200 ... 299:
             do {
                 return try JsonHelper.decode(data)
             } catch {

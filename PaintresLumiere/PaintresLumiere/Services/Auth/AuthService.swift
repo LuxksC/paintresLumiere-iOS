@@ -1,12 +1,11 @@
 import Foundation
 
-final class AuthService: AuthServiceProtocol {
-
+final class AuthService: AuthServiceProtocol, Sendable {
     private let client: APIClientProtocol
     private let keychain: KeychainService
 
     init(apiClient: APIClientProtocol, keychain: KeychainService) {
-        self.client = apiClient
+        client = apiClient
         self.keychain = keychain
     }
 
@@ -17,7 +16,8 @@ final class AuthService: AuthServiceProtocol {
     }
 
     func signUp(name: String, email: String, password: String,
-                phone: String?, cpf: String?, cnpj: String?) async throws -> String {
+                phone: String?, cpf: String?, cnpj: String?) async throws -> String
+    {
         let req = SignUpRequest(name: name, email: email, password: password,
                                 phone: phone?.isEmpty == false ? phone : nil,
                                 cpf: cpf?.isEmpty == false ? cpf : nil,
