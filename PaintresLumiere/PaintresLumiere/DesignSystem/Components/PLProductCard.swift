@@ -1,6 +1,7 @@
 import SwiftUI
 
 // MARK: - PLProductCard
+
 //
 // Catalog tile used in both the "Most Popular" carousel and the main grid.
 // Width is determined by the parent — pass a `frame(width:)` for the
@@ -10,7 +11,6 @@ import SwiftUI
 // when `product.pricing.hasDiscount` is true.
 
 struct PLProductCard: View {
-
     let product: Product
     let action: () -> Void
 
@@ -38,12 +38,21 @@ struct PLProductCard: View {
     }
 
     private var imageBlock: some View {
-        ZStack(alignment: .topTrailing) {
-            PLRemoteImage(url: product.primaryImageURL)
-                .aspectRatio(1, contentMode: .fill)
-                .frame(maxWidth: .infinity)
-                .clipShape(.rect(cornerRadius: PLRadius.card - 2))
+        GeometryReader { proxy in
+            ZStack(alignment: .topTrailing) {
+                PLRemoteImage(url: product.primaryImageURL)
+                    .frame(width: proxy.size.width, height: proxy.size.width)
+                    .clipShape(.rect(cornerRadius: PLRadius.card - 2))
 
+                imageBadges
+            }
+        }
+        .aspectRatio(1, contentMode: .fit)
+        .padding(.horizontal, PLSpacing.sm)
+    }
+
+    private var imageBadges: some View {
+        Group {
             if product.pricing.hasDiscount {
                 Text(product.pricing.discountPercentLabel)
                     .font(PLFont.label())
@@ -104,7 +113,6 @@ struct PLProductCard: View {
 // MARK: - PLProductPriceRow
 
 struct PLProductPriceRow: View {
-
     let pricing: ProductPricing
 
     var body: some View {
@@ -138,7 +146,7 @@ private struct PLProductCardButtonStyle: ButtonStyle {
 
 extension Decimal {
     var brlFormatted: String {
-        self.formatted(.currency(code: "BRL").locale(Locale(identifier: "pt_BR")))
+        formatted(.currency(code: "BRL").locale(Locale(identifier: "pt_BR")))
     }
 }
 
@@ -164,12 +172,12 @@ extension Decimal {
 }
 
 #if DEBUG
-private extension PreviewProductService {
-    func previewProducts() throws -> [Product] {
-        try JsonHelper.decodeFixture(
-            "products_response",
-            as: ProductsResponse<Product>.self
-        ).products
+    private extension PreviewProductService {
+        func previewProducts() throws -> [Product] {
+            try JsonHelper.decodeFixture(
+                "products_response",
+                as: ProductsResponse<Product>.self
+            ).products
+        }
     }
-}
 #endif
