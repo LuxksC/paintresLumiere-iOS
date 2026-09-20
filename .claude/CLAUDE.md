@@ -33,15 +33,19 @@ Review guidelines, and must match the architecture described below rather than r
 
 | | Current | Target | Tracked by |
 |---|---|---|---|
-| `IPHONEOS_DEPLOYMENT_TARGET` | `26.1` | **`18.0`** | card #81 |
-| `SWIFT_VERSION` | `5.0` | **`6.2`** | Swift 6.2 migration card (Phase 0) |
+| `IPHONEOS_DEPLOYMENT_TARGET` | **`18.0`** | — | done, card #81 |
+| `SWIFT_VERSION` | `5.0` | **`6.2`** | card #204 |
 | `SWIFT_APPROACHABLE_CONCURRENCY` | `YES` | keep | — |
 | `SWIFT_DEFAULT_ACTOR_ISOLATION` | `MainActor` | keep | — |
 
-**Write new code against the target column, not the current one.** Swift 6.2 with modern structured
+**iOS 18.0 is the floor.** It is set on all three targets — app, unit tests and UI tests — in both
+Debug and Release. Do not adopt an API introduced after iOS 18 without an `@available` /
+`#available` guard; there are no such guards in the codebase today, so an unguarded newer API is a
+compile error rather than a runtime surprise.
+
+**Write new code against the target column, not the current one.** Swift 6.2 with strict
 concurrency is where the project is going; do not introduce anything that would have to be undone
-when `SWIFT_VERSION` flips. Likewise, do not adopt an API that only exists on iOS 26 — iOS 18 is the
-floor we are moving to.
+when `SWIFT_VERSION` flips.
 
 The project already builds with **default actor isolation set to `MainActor`**. Types are therefore
 main-actor isolated unless stated otherwise. ViewModels still carry an explicit `@MainActor` for
