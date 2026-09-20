@@ -31,6 +31,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BE130919306074850051D97B /* spec.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = spec.md; sourceTree = "<group>"; };
+		BE13091B306074850051D97B /* spec.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = spec.md; sourceTree = "<group>"; };
+		BE13091D306074850051D97B /* spec.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = spec.md; sourceTree = "<group>"; };
+		BE13091F306074850051D97B /* spec.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = spec.md; sourceTree = "<group>"; };
+		BE130921306074850051D97B /* spec.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = spec.md; sourceTree = "<group>"; };
+		BE130923306074850051D97B /* spec.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = spec.md; sourceTree = "<group>"; };
+		BE130925306074850051D97B /* spec.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = spec.md; sourceTree = "<group>"; };
+		BE130928306074850051D97B /* STATE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STATE.md; sourceTree = "<group>"; };
 		BED0F0482F70080200B93BC9 /* PaintresLumiere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaintresLumiere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BED0F0552F70080400B93BC9 /* PaintresLumiereTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaintresLumiereTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BED0F05F2F70080400B93BC9 /* PaintresLumiereUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaintresLumiereUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,9 +104,90 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BE13091A306074850051D97B /* api-decoding-resilience */ = {
+			isa = PBXGroup;
+			children = (
+				BE130919306074850051D97B /* spec.md */,
+			);
+			path = "api-decoding-resilience";
+			sourceTree = "<group>";
+		};
+		BE13091C306074850051D97B /* apple-sign-in */ = {
+			isa = PBXGroup;
+			children = (
+				BE13091B306074850051D97B /* spec.md */,
+			);
+			path = "apple-sign-in";
+			sourceTree = "<group>";
+		};
+		BE13091E306074850051D97B /* authentication */ = {
+			isa = PBXGroup;
+			children = (
+				BE13091D306074850051D97B /* spec.md */,
+			);
+			path = authentication;
+			sourceTree = "<group>";
+		};
+		BE130920306074850051D97B /* google-sign-in */ = {
+			isa = PBXGroup;
+			children = (
+				BE13091F306074850051D97B /* spec.md */,
+			);
+			path = "google-sign-in";
+			sourceTree = "<group>";
+		};
+		BE130922306074850051D97B /* product-catalog */ = {
+			isa = PBXGroup;
+			children = (
+				BE130921306074850051D97B /* spec.md */,
+			);
+			path = "product-catalog";
+			sourceTree = "<group>";
+		};
+		BE130924306074850051D97B /* product-details */ = {
+			isa = PBXGroup;
+			children = (
+				BE130923306074850051D97B /* spec.md */,
+			);
+			path = "product-details";
+			sourceTree = "<group>";
+		};
+		BE130926306074850051D97B /* profile */ = {
+			isa = PBXGroup;
+			children = (
+				BE130925306074850051D97B /* spec.md */,
+			);
+			path = profile;
+			sourceTree = "<group>";
+		};
+		BE130927306074850051D97B /* features */ = {
+			isa = PBXGroup;
+			children = (
+				BE13091A306074850051D97B /* api-decoding-resilience */,
+				BE13091C306074850051D97B /* apple-sign-in */,
+				BE13091E306074850051D97B /* authentication */,
+				BE130920306074850051D97B /* google-sign-in */,
+				BE130922306074850051D97B /* product-catalog */,
+				BE130924306074850051D97B /* product-details */,
+				BE130926306074850051D97B /* profile */,
+			);
+			path = features;
+			sourceTree = "<group>";
+		};
+		BE130929306074850051D97B /* .specs */ = {
+			isa = PBXGroup;
+			children = (
+				BE130927306074850051D97B /* features */,
+				BE130928306074850051D97B /* STATE.md */,
+			);
+			name = .specs;
+			path = ../.specs;
+			sourceTree = SOURCE_ROOT;
+		};
 		BED0F03F2F70080200B93BC9 = {
 			isa = PBXGroup;
 			children = (
+				BE130929306074850051D97B /* .specs */,
 				BED0F04A2F70080200B93BC9 /* PaintresLumiere */,
 				BED0F0582F70080400B93BC9 /* PaintresLumiereTests */,
 				BED0F0622F70080400B93BC9 /* PaintresLumiereUITests */,
