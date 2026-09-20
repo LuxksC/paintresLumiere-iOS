@@ -420,6 +420,7 @@ clients decode it, and Android will need it documented.
 ## Git and PR conventions
 
 - Branches: `<CARD>/<type>/ls/<name>` — e.g. `PL-80/refactor/ls/rewrite_claude_md`.
+- **Commit message subject:** `PL-{id} {type}: {description}` — e.g. `PL-212 docs: replace HANDOFF.md with the .specs tree`. `{id}` is the Trello card number (no brackets, no leading `#`), `{type}` is a short Conventional-Commits-style tag (`feat`, `fix`, `refactor`, `docs`, `chore`, `test`, …) matching the branch's `<type>`, and `{description}` is a brief, imperative summary of what the commit does. A longer body paragraph below the subject is still welcome when the change needs explaining — this rule is about the subject line's shape, not a ban on detail.
 - **Language split:** prose and PR descriptions in **PT-BR**; code, symbols, commit messages and
   code comments in **English**. Trello cards are written in PT-BR.
 - **Never include AI attribution** in a commit message or PR body — no `Co-Authored-By: Claude`, no
