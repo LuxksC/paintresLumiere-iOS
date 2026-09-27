@@ -2,12 +2,11 @@ import Foundation
 
 // MARK: - ProductService
 
-final class ProductService: ProductServiceProtocol {
-
+final class ProductService: ProductServiceProtocol, Sendable {
     private let client: APIClientProtocol
 
     init(apiClient: APIClientProtocol) {
-        self.client = apiClient
+        client = apiClient
     }
 
     func getProducts() async throws -> [Product] {

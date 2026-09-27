@@ -34,7 +34,7 @@ Review guidelines, and must match the architecture described below rather than r
 | | Current | Target | Tracked by |
 |---|---|---|---|
 | `IPHONEOS_DEPLOYMENT_TARGET` | **`18.0`** | — | done, card #81 |
-| `SWIFT_VERSION` | `5.0` | **`6.2`** | card #204 |
+| `SWIFT_VERSION` | **`6.2`** | — | done, card #204 |
 | `SWIFT_APPROACHABLE_CONCURRENCY` | `YES` | keep | — |
 | `SWIFT_DEFAULT_ACTOR_ISOLATION` | `MainActor` | keep | — |
 
@@ -43,9 +43,8 @@ Debug and Release. Do not adopt an API introduced after iOS 18 without an `@avai
 `#available` guard; there are no such guards in the codebase today, so an unguarded newer API is a
 compile error rather than a runtime surprise.
 
-**Write new code against the target column, not the current one.** Swift 6.2 with strict
-concurrency is where the project is going; do not introduce anything that would have to be undone
-when `SWIFT_VERSION` flips.
+**Both rows above are now at their target.** The project builds under Swift 6.2 with strict
+concurrency — write new code accordingly; there is no more pending flip to design around.
 
 The project already builds with **default actor isolation set to `MainActor`**. Types are therefore
 main-actor isolated unless stated otherwise. ViewModels still carry an explicit `@MainActor` for
@@ -295,7 +294,13 @@ would be. Do not add a dependency silently, and do not refuse to consider one.
   more, and prefer a non-optional `URL` literal or a `guard` when you touch it.
 - **Shared singletons are an `actor` or an `enum` with `static` members, not a `class`.** A stateless
   helper is `enum Helper { static func … }`; shared mutable state is an `actor`. `KeychainService`
-  is a `class` with a `.shared` today — expect the Swift 6.2 migration (card #204) to revisit it.
+  stays a `class` with a `.shared` — evaluated during the Swift 6.2 migration (card #204) and kept as
+  a `Sendable` class on purpose: every stored property is a `let` constant and the only mutable state
+  is the Keychain itself, which the OS already serializes, so it is provably safe without an actor.
+  Converting it to an actor was rejected because `APIEndpoint.urlRequest()` reads
+  `KeychainService.shared.accessToken` synchronously to build a `URLRequest` — an actor would force
+  that call (and therefore route construction) to become `async`, rippling out far beyond this card's
+  scope for no real safety gain over `Sendable`.
 - `let` by default; `var` only where there is real mutation. Validate with `guard` + early return
   rather than nesting `if`s.
 - Never use legacy `Formatter` subclasses (`DateFormatter`, `NumberFormatter`,

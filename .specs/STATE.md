@@ -42,9 +42,9 @@ frozen in time.
 - **Decision**: migrate to `SWIFT_VERSION = 6.2` with strict concurrency, building on the `SWIFT_APPROACHABLE_CONCURRENCY = YES` / `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor` settings already in place.
 - **Reason**: ViewModels are already `@Observable @MainActor`, coordinator protocols are already `@MainActor`, and networking is already `async/await` — half the concurrency migration is already done by convention, so finishing it now is cheaper than it will ever be again.
 - **Trade-off**: any strict-concurrency error surfaced by the flip must be fixed for real (`Sendable` conformance, actor isolation) — never silenced with `@unchecked Sendable` or `nonisolated(unsafe)` without a written justification.
-- **Scope**: whole app. New code should already be written as if this were true (per `.claude/CLAUDE.md`), even though the project setting itself is still `5.0` until Trello #204 lands.
-- **Date**: target declared 2026-09-06 (`.claude/CLAUDE.md` rewrite, card #80); execution tracked as card #204, not yet shipped.
-- **Status**: active (decided, execution pending).
+- **Scope**: whole app.
+- **Date**: target declared 2026-09-06 (`.claude/CLAUDE.md` rewrite, card #80); shipped 2026-09-20 (card #204, branch `PL-204/refactor/ls/migrate_to_swift_6_2`).
+- **Status**: active, shipped. `KeychainService` was evaluated for actor conversion during this work and kept as a `Sendable` class instead — see `.claude/CLAUDE.md`'s Swift style section for the reasoning (an actor would force `APIEndpoint.urlRequest()`'s synchronous token read to become `async`).
 
 ### AD-005
 - **Decision**: every enum decoded from the API must tolerate an unknown case instead of throwing — degrade the one affected field, never fail the whole decode. Concretely: an `UnknownCaseDecodable` protocol with an `unknown` case, applied first to `ProductCategory`, `ProductStatus`, `ProductColor`.
@@ -74,11 +74,11 @@ frozen in time.
 
 ## Handoff
 
-- **Feature**: none in progress once this commit lands — this `.specs/` bootstrap + the `/check-project-state` rename is Trello #212, currently in DOING, and is what this Handoff entry closes out.
+- **Feature**: none in progress — #204 (Swift 6.2 migration) is committed on its own branch, not yet merged.
 - **Phase / Task**: N/A — between cards. Trello Phase 0 (card #178) is the active phase; see `../STATE.md` §5–6 for full board state.
-- **Completed**: #212 this repo's `.specs/` tree + `/check-project-state` command (replacing `HANDOFF.md` + `/handoff-check`); #81 deployment target → iOS 18 (`PL-81`); #80 `.claude/CLAUDE.md` rewritten for the real architecture (`PL-80`); #16 catalog seeded with 10 real products; backend #114/#115/#205 shipped the API-proxied image upload + processing pipeline (images are now client-readable, relevant to `PLRemoteImage`/Kingfisher even though this repo didn't change).
+- **Completed**: #204 Swift 6.2 + strict concurrency migration, all six build configs, zero errors/warnings, verified with `RunAllTests` and `RenderPreview` on Login/Home/ProductDetails (commit `73ae9ba`, not yet pushed/PR'd); #212 this repo's `.specs/` tree + `/check-project-state` command (replacing `HANDOFF.md` + `/handoff-check`, merged via PR #6); #81 deployment target → iOS 18 (`PL-81`); #80 `.claude/CLAUDE.md` rewritten for the real architecture (`PL-80`); #16 catalog seeded with 10 real products; backend #114/#115/#205 shipped the API-proxied image upload + processing pipeline (images are now client-readable, relevant to `PLRemoteImage`/Kingfisher even though this repo didn't change).
 - **In-progress**: none.
-- **Next step**: pick up either #204 (Swift 6.2 migration, AD-004) or #157 (Localizable.xcstrings infra, AD-007) — both are unblocked, iOS-only, Phase 0 · P1, and #204 was explicitly queued to pair with the deployment-target change that already landed.
-- **Blockers**: none for the two candidates above. Owner-action items blocking *other* Phase 0/1 work: #74 Asaas sandbox account (blocks Phase 4 payments — briefly moved to DONE on 2026-09-20 and moved back, still open), #77 Google Cloud OAuth iOS client ID (blocks #87 Google Sign-In, see `.specs/features/google-sign-in/spec.md`), #95 AWS SES provisioning (blocks the password-reset flow), #163 Apple Developer account (blocks device distribution and Apple Sign-In verification, see `.specs/features/apple-sign-in/spec.md`).
-- **Uncommitted files**: `PaintresLumiere/.DS_Store` and the Xcode `UserInterfaceState.xcuserstate` (pre-existing repo-hygiene noise, tracked by Trello #84) remain unstaged/untouched by this PR.
-- **Branch**: `PL-212/docs/ls/update_project_docs`.
+- **Next step**: push `PL-204/refactor/ls/migrate_to_swift_6_2` and open its PR (pending Lucas's go-ahead), then pick up #157 (Localizable.xcstrings infra, AD-007) — unblocked, iOS-only, Phase 0 · P1. Separately, the commit-message-convention edit to `.claude/CLAUDE.md` is stashed on `main` (`git stash list`), waiting for Lucas to commit it himself.
+- **Blockers**: none for #157. Owner-action items blocking *other* Phase 0/1 work: #74 Asaas sandbox account (blocks Phase 4 payments — briefly moved to DONE on 2026-09-20 and moved back, still open), #77 Google Cloud OAuth iOS client ID (blocks #87 Google Sign-In, see `.specs/features/google-sign-in/spec.md`), #95 AWS SES provisioning (blocks the password-reset flow), #163 Apple Developer account (blocks device distribution and Apple Sign-In verification, see `.specs/features/apple-sign-in/spec.md`).
+- **Uncommitted files**: `PaintresLumiere/.DS_Store` and the Xcode `UserInterfaceState.xcuserstate` (pre-existing repo-hygiene noise, tracked by Trello #84) remain unstaged/untouched.
+- **Branch**: `PL-204/refactor/ls/migrate_to_swift_6_2`.

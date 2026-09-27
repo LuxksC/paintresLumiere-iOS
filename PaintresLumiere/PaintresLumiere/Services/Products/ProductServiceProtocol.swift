@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - ProductServiceProtocol
 
-protocol ProductServiceProtocol: AnyObject {
+protocol ProductServiceProtocol: AnyObject, Sendable {
     /// Fetches the full catalog. The API already deduplicates by SKU, so each
     /// returned `Product` represents one SKU group.
     func getProducts() async throws -> [Product]

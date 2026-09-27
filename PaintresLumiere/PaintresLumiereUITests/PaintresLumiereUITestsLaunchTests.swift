@@ -7,8 +7,7 @@
 
 import XCTest
 
-final class PaintresLumiereUITestsLaunchTests: XCTestCase {
-
+final nonisolated class PaintresLumiereUITestsLaunchTests: XCTestCase {
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }
@@ -18,7 +17,7 @@ final class PaintresLumiereUITestsLaunchTests: XCTestCase {
     }
 
     @MainActor
-    func testLaunch() throws {
+    func testLaunch() {
         let app = XCUIApplication()
         app.launch()
 
